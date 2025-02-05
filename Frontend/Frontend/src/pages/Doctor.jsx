@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { AppContext } from '../context/AppContext'
-import { assets } from '../assets/assets'
+
 import clsx from 'clsx'
 
 const Doctor = () => {
