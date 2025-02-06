@@ -13,7 +13,7 @@ const Login = () => {
     )
 
     return (
-        <form className="min-h-[80vh] flex items-center justify-center" >
+        <form className="min-h-[80vh] flex items-center justify-center shadow-lg" >
             <div className="flex flex-col gap-3 items-start p-8 m-auto min-w-[340px] sm:min-w-96 border text-sm text-zinc rounded-xl text-zinc-600 shadow-lg">
                 <p className="text-2xl font-semibold">
                     {state == "sign up" ? 'CREATE ACCOUNT' : 'Log into  your account'}
