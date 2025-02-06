@@ -5,11 +5,11 @@ import { NavLink, useNavigate } from 'react-router-dom'
 const Navbar = () => {
     const navigate = useNavigate()
     const [token, setToken] = useState(true)
-    // const [showmenu, setShowmenu] = useState(false)
+    const [showmenu, setShowmenu] = useState(false)
     return (
         <div className='flex items-center text-sm justify-between  py-4 border-b border-gray-400 md:mx-5' >
-            <img className=" w-30 ml-4 sm:w-44 cursor-pointer" src={assets.logo} alt=" " />
-            <ul className='text-[11px] sm:text-sm flex gap-4 items-start font-medium'>
+            <img onClick={() => navigate('/')} className=" w-30 ml-4 sm:w-44 cursor-pointer" src={assets.logo} alt=" " />
+            <ul className='hidden sm:flex text-[11px] sm:text-sm  gap-4 items-start font-medium'>
                 <NavLink to="/">
                     <li className='py-1' >HOME</li>
                     <hr className='outline-none border-none h-0.5 bg-gray-500 w-3/5 m-auto hidden'></hr>
@@ -40,7 +40,7 @@ const Navbar = () => {
                                 <div className="min-w-48 bg-stone-100 rounded flex flex-col p-4 shadow-md">
                                     <p className="hover:text-black hover:bg-gray-200 cursor-pointer" onClick={() => navigate('myprofile')}>MyProfile</p>
                                     <p className="hover:text-black hover:bg-gray-200 cursor-pointer" onClick={() => navigate('myappointment')}>MyAppointment</p>
-                                    <p className="hover:text-black hover:bg-gray-200 cursor-pointer" onClick={() => setToken(false)}>Logout</p>
+                                    <p className="hover:text-black hover:bg-gray-200 cursor-pointer" onClick={() => { navigate('login'); setToken(false); }}>Logout</p>
                                 </div>
                             </div>
                         </div>
@@ -48,6 +48,19 @@ const Navbar = () => {
                         :
                         <button onClick={() => (navigate('/login'))} className=' primary w-auto px-4 py-2 rounded-full   mr-4 '>Create Account</button>
                 }
+                <img onClick={() => setShowmenu(true)} src={assets.menu_icon} className='w-6 sm:hidden mr-5' />
+                <div className={`${showmenu ? 'fixed w-full h-full' : 'h-0 w-0'} sm:hidden overflow-hidden right-0 transitiona-all top-0 z-20 bg-white`}>
+                    <div className='flex items-center justify-between px-5 py-6'>
+                        <img onClick={() => { setShowmenu(false); navigate('/') }} className='w-36' src={assets.logo} />
+                        <img className='w-7' onClick={() => setShowmenu(false)} src={assets.cross_icon} />
+                    </div>
+                    <ul className='flex flex-col items-center gap-2 mt-5 px-5 text-lg font-medium'>
+                        <NavLink onClick={() => (setShowmenu(false))} to=''>HOME</NavLink>
+                        <NavLink onClick={() => (setShowmenu(false))} className='px-4 py-2 rounded inline-block' to='/doctor'>ALL DOCTORS</NavLink>
+                        <NavLink onClick={() => (setShowmenu(false))} className='px-4 py-2 rounded inline-block' to='/about'>ABOUT</NavLink>
+                        <NavLink onClick={() => (setShowmenu(false))} className='px-4 py-2 rounded inline-block' to='contact'>CONTACT</NavLink>
+                    </ul>
+                </div>
             </div>
         </div>
     )
