@@ -58,7 +58,7 @@ const Login = () => {
                     />
                 </div>
                 <div className='flex w-full mt-2 items-center justify-center'>
-                    <button type="submit" className='border p-2 rounded-lg hover:scale-110 duration-300 transition-all'>
+                    <button type="submit" className='border p-2 rounded-lg hover:scale-110 duration-300 transition-all cursor-pointer'>
                         SUBMIT
                     </button>
                 </div>

@@ -28,10 +28,19 @@ const Navbar = () => {
         <div className="flex items-center text-sm justify-between py-4 border-b border-gray-400 md:mx-5">
             <img onClick={() => navigate("/")} className="w-30 ml-4 sm:w-44 cursor-pointer" src={assets.logo} alt=" " />
             <ul className="hidden sm:flex text-[11px] sm:text-sm gap-4 items-start font-medium">
-                <NavLink to="/">HOME</NavLink>
-                <NavLink to="/doctor">ALL DOCTORS</NavLink>
-                <NavLink to="/about">ABOUT</NavLink>
-                <NavLink to="/contact">CONTACT</NavLink>
+                <NavLink to="/">
+                    <li>HOME</li>
+                    <hr className="border-none outline-none w-2/3 bg-[#5f6FFF] h-0.5 m-auto hidden" />
+                </NavLink>
+                <NavLink to="/doctor">
+                    <li>ALL DOCTORS</li>
+                    <hr className="border-none outline-none w-2/3 bg-[#5f6FFF] h-0.5 m-auto hidden" /></NavLink>
+                <NavLink to="/about">
+                    <li>ABOUT</li>
+                    <hr className="border-none outline-none w-2/3 bg-[#5f6FFF] h-0.5 m-auto hidden" /></NavLink>
+                <NavLink to="/contact">
+                    <li>CONTACT</li>
+                    <hr className="border-none outline-none w-2/3 bg-[#5f6FFF] h-0.5 m-auto hidden" /></NavLink>
             </ul>
 
             <div className="flex items-center">

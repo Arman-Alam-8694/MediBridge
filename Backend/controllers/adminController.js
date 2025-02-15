@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import doctorModel from "../models/doctorModel.js";
 import { v2 as cloudinary } from "cloudinary";
 import jwt from "jsonwebtoken"
+import streamifier from "streamifier";
 
 // API for adding doctor
 const addDoctor = async (req, res) => {
@@ -31,10 +32,43 @@ const addDoctor = async (req, res) => {
         const saltRounds = 15;
         const salt = await bcrypt.genSalt(saltRounds);
         const hashedPassword = await bcrypt.hash(password, salt);
+        //upload image to cloudinary using the memoryStorage from multer and also using promise with upload_stream
+
+
+
+        //here is the code for the upload
+        const uploadImageCloudinary = (imageFile) => {
+            return new Promise((resolve, reject) => {
+                const uploadStream = cloudinary.uploader.upload_stream(
+                    {
+                        resource_type: 'image',
+                        folder: 'doctors', // ✅ Uploads to "doctors" folder
+                        public_id: `doctor_${Date.now()}`, // ✅ Unique name for the file
+                        overwrite: true, // ✅ Ensures new uploads don't conflict
+                        format: 'png' // ✅ Convert to PNG (optional)
+                    },
+                    (error, result) => {
+                        if (error) {
+                            reject(error);
+                        } else {
+                            resolve(result.secure_url);
+                        }
+                    }
+                );
+
+                streamifier.createReadStream(imageFile.buffer).pipe(uploadStream);
+            });
+        };
+
+        const imageUrl = await uploadImageCloudinary(imageFile)
+        console.log("here", imageUrl)
 
         // Upload image to Cloudinary
-        const imageUpload = await cloudinary.uploader.upload(imageFile.path, { resource_type: "image" }); // ✅ Fixed `await`
-        const imageUrl = imageUpload.secure_url;
+        // const imageUpload = await cloudinary.uploader.upload_stream( {
+        //     resource_type: "image",
+
+        // }); // ✅ Fixed `await`
+        // const imageUrl = imageUpload.secure_url;
 
         // Prepare doctor data
         const doctorData = {
