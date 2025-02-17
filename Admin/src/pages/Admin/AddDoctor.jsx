@@ -1,21 +1,26 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { assets } from "../../assets/assets.js";
+import { doctors } from "../../../../Frontend/src/assets/assets.js";
 import { AdminContext } from "../../context/AdminContext.jsx";
+import { toast } from 'react-toastify';
+import axios from 'axios';
 
 const AddDoctor = () => {
-    const [docImg, setDocImg] = useState(false)
-    const [name, setName] = useState("")
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-    const [experience, setExperience] = useState("")
-    const [about, setAbout] = useState("")
-    const [education, setEducation] = useState("")
-    const [fees, setFees] = useState("")
-    const [address1, setAddress1] = useState("")
-    const [address2, setAddress2] = useState("")
-    const [speciality, setSpeciality] = useState('General Physician')
+    const [docImg, setDocImg] = useState(false);
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [experience, setExperience] = useState("");
+    const [about, setAbout] = useState("");
+    const [degree, setDegree] = useState("");
+    const [fees, setFees] = useState("");
+    const [address1, setAddress1] = useState("");
+    const [address2, setAddress2] = useState("");
+    const [speciality, setSpeciality] = useState('General Physician');
 
-    //mapping the setState with respect to key of  input field for dynamic addition in the map used
+
+    const { backendUrl, aToken } = useContext(AdminContext);
+
     const setters = {
         name: setName,
         email: setEmail,
@@ -24,22 +29,53 @@ const AddDoctor = () => {
         fees: setFees,
     };
 
-    const formatKey = (id) => id.replace("doctor-", "")
 
-    const { backendUrl, aToken } = useContext(AdminContext)
 
     const onSubmitHandler = async (event) => {
-        event.preventDefault()
+        event.preventDefault();
         try {
             if (!docImg) {
-                return toa
-
+                return toast.error('Profile image is not inserted');
             }
 
-        } catch (error) {
+            const formData = new FormData();
+            formData.append('image', docImg);
+            formData.append('name', name);
+            formData.append('email', email);
+            formData.append('password', password);
+            formData.append('experience', experience);
+            formData.append('about', about);
+            formData.append('degree', degree);
+            formData.append('fees', Number(fees));
+            formData.append('speciality', speciality);
+            formData.append('address', JSON.stringify({ line1: address1, line2: address2 }));
 
+            const { data } = await axios.post(backendUrl + '/api/admin/add-doctor', formData, { headers: { aToken } });
+
+            if (data.success) {
+                toast.success(data.message);
+                toast.success(data.message)
+                setDocImg(false)
+                setName("")
+                setEmail("")
+                setPassword("")
+                setExperience("")
+                setAbout("")
+                setDegree("")
+                setFees("")
+                setAddress1("")
+                setAddress2("")
+                setSpeciality('General Physician')
+
+
+            } else {
+                toast.error(data.message);
+            }
+        } catch (error) {
+            toast.error(error.message);
         }
-    }
+    };
+
     return (
         <form onSubmit={onSubmitHandler} className="min-h-screen w-full flex-col items-start justify-start bg-indigo-50 p-5 gap-2 ">
             <p className="text-xl font-semibold text-gray-700 pb-3">Add Doctor</p>
@@ -47,7 +83,6 @@ const AddDoctor = () => {
 
                 {/* Upload Profile Section */}
                 <div className="flex items-center gap-3 py-4">
-                    {/* Label triggers file selection */}
                     <label htmlFor="uploadProfile" className="cursor-pointer flex items-center gap-3">
                         <img src={docImg ? URL.createObjectURL(docImg) : assets.upload_area} className="w-16 object-cover rounded-full bg-indigo-200 " alt="Profile" />
                         <span className="text-gray-600">EDIT PROFILE PICTURE</span>
@@ -66,9 +101,10 @@ const AddDoctor = () => {
                                 </label>
                                 <input
                                     onChange={(e) => setters[key](e.target.value)}
+
                                     value={{
                                         name, email, password, experience, fees
-                                    }[key]} // ✅ Correct way to access state variables
+                                    }[key]}
                                     className="border border-gray-500 rounded-md p-2 w-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-none focus:bg-indigo-100"
                                     placeholder={key}
                                     type="text"
@@ -76,7 +112,6 @@ const AddDoctor = () => {
                                 />
                             </div>
                         ))}
-
                     </div>
 
                     {/* Right Side - Address & Speciality */}
@@ -104,11 +139,10 @@ const AddDoctor = () => {
                                 Education
                             </label>
                             <input
-                                onChange={(e) => setEducation(e.target.value)}
-
+                                onChange={(e) => setDegree(e.target.value)}
                                 className="border border-gray-500 rounded-md p-2 text-sm w-full focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-none focus:bg-indigo-100"
                                 type="text"
-                                value={education}
+                                value={degree}
                                 placeholder="Mbbs,etc,...."
                                 id="doctor-education"
                             />

@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
 @import "tailwindcss";
 
 /* Default link styles */
@@ -17,3 +18,19 @@
     color: white;
     border-right: 3px solid #5f6FFF;
 } */
+
+/* .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+} */
+::-webkit-scrollbar {
+    @apply hidden
+}
+
+/* .hide-scrollbar {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+/* scrollbar-width: none;
+/* Firefox */
+* {
+    font-family: Outfit;
+}

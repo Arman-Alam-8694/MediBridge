@@ -11,20 +11,23 @@ const addDoctor = async (req, res) => {
         const { name, email, password, speciality, degree, about, fees, address, experience, available } = req.body;
         const imageFile = req.file;
 
-        console.log({ name, email, password, speciality, degree, about, fees, address, experience, available }, { imageFile });
+        console.log({ name, email, password, speciality, degree, about, fees, address, experience }, { imageFile });
 
         // Check for missing fields
-        if (!name || !email || !password || !speciality || !degree || !about || !address || !experience || !fees || !available || !imageFile) {
+        if (!name || !email || !password || !speciality || !degree || !about || !address || !experience || !fees || !imageFile) {
+            console.log("Missing Details")
             return res.status(400).json({ success: false, message: "Missing Details" });
         }
 
         // Validate email format
         if (!validator.isEmail(email)) {
+            console.log("email issue")
             return res.status(400).json({ success: false, message: "Invalid Email" });
         }
 
         // Validate password length
         if (password.length < 10) {
+            console.log("password issue")
             return res.status(400).json({ success: false, message: "Weak password" });
         }
 
@@ -89,6 +92,7 @@ const addDoctor = async (req, res) => {
         // Save to MongoDB
         const newDoctor = new doctorModel(doctorData);
         await newDoctor.save();
+        console.log('heree')
 
         res.json({ success: true, message: "Doctor Added" });
 
@@ -116,4 +120,20 @@ const loginAdmin = async (req, res) => {
     }
 }
 
-export { addDoctor, loginAdmin };
+
+//API to get all the doctors in admin
+const allDoctors = async (req, res) => {
+    try {
+        const doctors = await doctorModel.find({}).select('-password')
+
+        res.json({ success: true, doctors })
+
+
+
+    } catch (error) {
+        res.json({ success: false, message: error.message })
+
+    }
+
+}
+export { addDoctor, loginAdmin, allDoctors };
