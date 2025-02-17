@@ -7,6 +7,7 @@ import Contact from './pages/Contact';
 import MyAppointments from './pages/MyAppointments';
 import MyProfile from './pages/MyProfile';
 import Appointments from './pages/Appointments';
+import { ToastContainer } from 'react-toastify';
 
 import Navbar from './components/Navbar';
 import Login from './pages/Login';
@@ -15,6 +16,7 @@ import Footer from './components/Footer';
 const App = () => {
   return (
     <div>
+      <ToastContainer />
       <Navbar />
 
 
