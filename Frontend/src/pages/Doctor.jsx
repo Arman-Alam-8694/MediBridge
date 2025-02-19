@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { AppContext } from '../context/AppContext'
 
 import clsx from 'clsx'
-import { assets } from '../assets/assets'
+
 
 const Doctor = () => {
   const { speciality } = useParams()
@@ -36,27 +36,27 @@ const Doctor = () => {
         </div>
         <div id="filter-menu" className='hidden sm:flex flex flex-col sm:items-center sm:justify-center mt-2 gap-2'>
           <p onClick={() => (speciality === 'General physician' ? navigate('/doctor') : navigate('/doctor/General physician'))}
-            className={clsx("border text-center text-sm w-[130px] rounded-lg py-2", { "bg-indigo-500 text-black": speciality === "General physician" })}>
+            className={clsx("border text-center text-sm w-[130px] rounded-lg hover:cursor-pointer py-2", { "bg-indigo-500 text-black": speciality === "General physician" })}>
             General Physician
           </p>
           <p onClick={() => (speciality === 'Gynecologist' ? navigate('/doctor') : navigate('/doctor/Gynecologist'))}
-            className={clsx("border text-center text-sm w-[130px] rounded-lg py-2", { "bg-indigo-500 text-black": speciality === "Gynecologist" })}>
+            className={clsx("border text-center text-sm w-[130px] rounded-lg py-2 hover:cursor-pointer", { "bg-indigo-500 text-black": speciality === "Gynecologist" })}>
             Gynecologist
           </p>
           <p onClick={() => (speciality === 'Dermatologist' ? navigate('/doctor') : navigate('/doctor/Dermatologist'))}
-            className={clsx("border text-center text-sm w-[130px] rounded-lg py-2", { "bg-indigo-500 text-black": speciality === "Dermatologist" })}>
+            className={clsx("border text-center text-sm w-[130px] rounded-lg py-2 hover:cursor-pointer", { "bg-indigo-500 text-black": speciality === "Dermatologist" })}>
             Dermatologist
           </p>
           <p onClick={() => (speciality === 'Pediatricians' ? navigate('/doctor') : navigate('/doctor/Pediatricians'))}
-            className={clsx("border text-center text-sm w-[130px] rounded-lg py-2", { "bg-indigo-500 text-black": speciality === "Pediatricians" })}>
+            className={clsx("border text-center text-sm w-[130px] rounded-lg py-2 hover:cursor-pointer", { "bg-indigo-500 text-black": speciality === "Pediatricians" })}>
             Pediatricians
           </p>
           <p onClick={() => (speciality === 'Neurologist' ? navigate('/doctor') : navigate('/doctor/Neurologist'))}
-            className={clsx("border text-center text-sm w-[130px] rounded-lg py-2", { "bg-indigo-500 text-black": speciality === "Neurologist" })}>
+            className={clsx("border text-center text-sm w-[130px] rounded-lg py-2 hover:cursor-pointer", { "bg-indigo-500 text-black": speciality === "Neurologist" })}>
             Neurologist
           </p>
           <p onClick={() => (speciality === 'Gastroenterologist' ? navigate('/doctor') : navigate('/doctor/Gastroenterologist'))}
-            className={clsx("border text-center text-sm w-[130px] rounded-lg py-2", { "bg-indigo-500 text-black": speciality === "Gastroenterologist" })}>
+            className={clsx("border text-center text-sm w-[130px] rounded-lg py-2 hover:cursor-pointer", { "bg-indigo-500 text-black": speciality === "Gastroenterologist" })}>
             Gastroenterologist
           </p>
         </div>
@@ -65,7 +65,7 @@ const Doctor = () => {
         {filterDoc.map((item, index) => (
           <div onClick={() => { navigate(`/appointment/${item._id}`); scrollTo(0, 0) }}
             className='border overflow-hidden h-[300px] border-blue rounded-xl hover:-translate-y-2 transition-all duration-500 
-                    min-w-[150px] flex-shrink max-w-[200px]'
+                    min-w-[150px] flex-shrink max-w-[200px] hover:cursor-pointer '
             key={index}
           >
             <img className='bg-blue-50 w-full ' src={item.image} />

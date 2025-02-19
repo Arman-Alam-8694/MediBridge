@@ -1,6 +1,11 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useContext, useEffect } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { AppContext } from "../context/AppContext";
 
 const Login = () => {
+
+    const { setToken, backendUrl } = useContext(AppContext)
     const [state, setstate] = useState("sign up");
     const [userName, setuserName] = useState("");
     const [email, setemail] = useState("");
@@ -25,9 +30,55 @@ const Login = () => {
         }
     };
 
+    const onSubmitHandler = async (event) => {
+        event.preventDefault()
+        try {
+            if (state === "sign up") {
+                const { data } = await axios.post(backendUrl + '/api/user/register', { name: userName, email, password })
+                console.log(data)
+                if (data.success) {
+                    setToken(data.token)
+                    localStorage.setItem('token', data.token)
+                    console.log('token created for the new user')
+                    toast.success('user registered successfully')
+
+                }
+                else {
+
+                    toast.error(data.message)
+                }
+
+
+            } else {
+                const { data } = await axios.post(backendUrl + '/api/user/login', { email, password })
+                console.log(data)
+                if (data.success) {
+                    setToken(data.token)
+                    localStorage.setItem('token', data.token)
+                    console.log('token created for the new user')
+                    toast.success('user login successfully')
+
+                }
+                else {
+
+                    toast.error(data.message)
+
+                }
+            }
+
+        } catch (error) {
+
+            toast.error(error.message)
+
+        }
+
+    }
+
+
+
 
     return (
-        <form ref={formRef} className="min-h-[80vh] flex items-center justify-center transition-all duration-400 border-solid">
+        <form onSubmit={onSubmitHandler} ref={formRef} className="min-h-[80vh] flex items-center justify-center transition-all duration-400 border-solid">
             <div className="border shadow-lg">
                 <div ref={innerdiv} className="flex flex-col gap-3 items-start p-8 m-auto min-w-[340px] sm:min-w-96  text-sm text-zinc text-zinc-600 ">
                     <p className="text-2xl font-semibold">
@@ -48,7 +99,7 @@ const Login = () => {
                         <p>Password</p>
                         <input className='border border-zinc-300 mt-1 w-full p-2' type='password' onChange={(e) => setpassword(e.target.value)} value={password} required />
                     </div>
-                    <button className="bg-[#5f6FFF] text-white w-full py-2 rounded-md text-base ">{state == "sign up" ? 'CREATE ACCOUNT ' : 'LOG IN'}</button>
+                    <button type='submit' className="bg-[#5f6FFF] text-white w-full py-2 rounded-md text-base ">{state == "sign up" ? 'CREATE ACCOUNT ' : 'LOG IN'}</button>
                     {state == "sign up" ? (
                         <p>Already have an account? <span onClick={() => handleFlip('Login')} className="text-[#5f6FFF] underline cursor-pointer">Login here</span></p>
                     ) : (

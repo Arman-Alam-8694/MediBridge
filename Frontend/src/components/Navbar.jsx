@@ -1,13 +1,24 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useContext } from "react";
 import { assets } from "../assets/assets";
 import { NavLink, useNavigate } from "react-router-dom";
+import { AppContext } from "../context/AppContext";
 
 const Navbar = () => {
     const navigate = useNavigate();
-    const [token, setToken] = useState(true);
+    const { token, setToken, } = useContext(AppContext)
+
     const [showMenu, setShowMenu] = useState(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropIcons = useRef(null);
+
+
+
+    const logOut = () => {
+        console.log('printing...')
+        setToken(false)
+        localStorage.removeItem('token')
+
+    }
 
     const toggleDropdown = () => {
         setIsDropdownOpen((prev) => !prev);
@@ -23,6 +34,13 @@ const Navbar = () => {
         document.addEventListener("mousedown", handleClickOutside);
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
+
+    useEffect(() => {
+        if (token) {
+            navigate('/')
+        }
+
+    }, [token])
 
     return (
         <div className="flex items-center text-sm justify-between py-4 border-b border-gray-400 md:mx-5">
@@ -77,7 +95,7 @@ const Navbar = () => {
                                 className="hover:text-black hover:bg-gray-200 cursor-pointer"
                                 onClick={() => {
                                     navigate("login");
-                                    setToken(false);
+                                    logOut();
                                     setIsDropdownOpen(false);
                                 }}
                             >

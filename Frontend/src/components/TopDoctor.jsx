@@ -11,7 +11,7 @@ const TopDoctor = () => {
             <p className='sm:w-1/3 text-center text-sm'>Simply browse through below</p>
 
             {/* Flex container with wrapping and centering */}
-            <div className='w-full flex flex-wrap justify-center gap-4 pt-5 gap-y-6 px-3'>
+            <div className='w-full flex flex-wrap justify-center gap-4 pt-5 gap-y-6 px-3 hover:cursor-pointer'>
                 {
                     doctors.slice(0, 6).map((item, index) => (
                         <div onClick={() => { navigate(`/appointment/${item._id}`); scrollTo(0, 0) }} className='border overflow-hidden border-blue rounded-xl hover:-translate-y-2 transition-all duration-500 

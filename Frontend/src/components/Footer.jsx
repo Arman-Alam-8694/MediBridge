@@ -1,7 +1,9 @@
 
+import { useNavigate } from 'react-router-dom';
 import { assets } from '../assets/assets';
 
 const Footer = () => {
+    const navigate = useNavigate()
     return (
         <div className='bg-white text-gray-800 py-8 border-t border-gray-200 sm:ml-10'>
             <div className='container px-5 '>
@@ -18,9 +20,9 @@ const Footer = () => {
                     <div className='flex-1 flex justify-start sm:justify-end'>
                         <div className='flex flex-col'>
                             <h1 className='text-lg font-semibold mb-4 text-blue-600'>COMPANY</h1>
-                            <p className='text-gray-600 hover:text-blue-600 cursor-pointer mb-2'>Home</p>
-                            <p className='text-gray-600 hover:text-blue-600 cursor-pointer mb-2'>About Us</p>
-                            <p className='text-gray-600 hover:text-blue-600 cursor-pointer mb-2'>Contact Us</p>
+                            <p onClick={() => navigate('/')} className='text-gray-600 hover:text-blue-600 cursor-pointer mb-2'>Home</p>
+                            <p onClick={() => navigate('/about')} className='text-gray-600 hover:text-blue-600 cursor-pointer mb-2'>About Us</p>
+                            <p onClick={() => navigate('/contact')} className='text-gray-600 hover:text-blue-600 cursor-pointer mb-2'>Contact Us</p>
                             <p className='text-gray-600 hover:text-blue-600 cursor-pointer mb-2'>Privacy Policy</p>
                         </div>
                     </div>
